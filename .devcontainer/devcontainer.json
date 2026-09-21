@@ -1,0 +1,15 @@
+{
+  "name": "Xingji Travel Planner",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "forwardPorts": [8787],
+  "portsAttributes": {
+    "8787": {
+      "label": "行迹旅行规划",
+      "onAutoForward": "silent",
+      "visibility": "public",
+      "protocol": "https"
+    }
+  },
+  "postCreateCommand": "npm ci --omit=dev && npm install -g @fly-ai/flyai-cli@1.0.16",
+  "postStartCommand": "bash scripts/start-codespace.sh"
+}

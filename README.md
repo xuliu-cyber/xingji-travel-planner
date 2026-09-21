@@ -39,3 +39,5 @@ node scripts/e2e-local.mjs
 - `PORT`：通常由托管平台自动注入
 
 Cloudflare Worker 版本只能运行高德基础能力，不能执行 `flyai` CLI，因此不适合完整实时票务部署。
+
+仓库也包含 `.devcontainer/devcontainer.json`。GitHub Codespaces 创建或恢复时会安装 FlyAI CLI、加载 Codespaces Secrets、自动启动服务，并将 8787 端口设为公开预览。
