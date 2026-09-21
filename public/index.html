@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="输入目的地和旅行偏好，快速生成一份有路线、有天气、有节奏的城市旅行计划。" />
+    <title>行迹 · 智能旅行规划</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <div class="noise"></div>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="行迹首页">
+        <span class="brand-mark"><i></i><i></i><i></i></span>
+        <span>行迹</span>
+      </a>
+      <nav>
+        <a href="#planner">规划行程</a>
+        <a href="#how">使用方法</a>
+      </nav>
+      <a class="header-cta" href="#planner">开始规划 <span>↗</span></a>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> AI TRAVEL PLANNER</p>
+          <h1>把想去的地方，<br /><em>连成一段好旅程。</em></h1>
+          <p class="hero-desc">不用在十几个页面之间来回切换。告诉我们目的地和偏好，即刻获得一份有天气、有路线、有节奏的旅行计划。</p>
+          <div class="hero-proof">
+            <div><strong>30s</strong><span>快速成行</span></div>
+            <div><strong>实时</strong><span>地点数据</span></div>
+            <div><strong>灵活</strong><span>偏好组合</span></div>
+          </div>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="sun"></div>
+          <div class="postcard card-a"><span>39.9042° N</span><b>BEIJING</b><small>城市漫游手记</small></div>
+          <div class="postcard card-b"><div class="mountains"></div><b>GO<br />SOMEWHERE</b></div>
+          <div class="stamp">去<br />远<br />方</div>
+          <svg class="route-line" viewBox="0 0 500 420"><path d="M45 330 C130 280, 100 140, 205 155 S330 310, 460 125"/><circle cx="45" cy="330" r="7"/><circle cx="460" cy="125" r="7"/></svg>
+        </div>
+      </section>
+
+      <section class="planner-section" id="planner">
+        <div class="section-heading">
+          <p class="eyebrow"><span></span> PLAN YOUR ESCAPE</p>
+          <h2>下一站，想去哪里？</h2>
+          <p>几个简单选择，为你拼出一趟刚刚好的旅行。</p>
+        </div>
+
+        <div class="planner-shell">
+          <form id="planner-form">
+            <div class="field">
+              <label for="origin">从哪里出发</label>
+              <div class="input-wrap"><span>⌖</span><input id="origin" name="origin" value="北京" maxlength="80" placeholder="城市或具体地址" required /></div>
+            </div>
+            <div class="field">
+              <label for="city">目的地</label>
+              <div class="input-wrap"><span>⌖</span><input id="city" name="city" value="北京" maxlength="40" placeholder="城市或地区，例如：杭州" required /></div>
+            </div>
+            <div class="field">
+              <label for="start-date">出发日期</label>
+              <input id="start-date" name="startDate" type="date" required />
+            </div>
+            <div class="field">
+              <label for="days">旅行天数</label>
+              <select id="days" name="days">
+                <option value="1">1 天</option><option value="2" selected>2 天</option><option value="3">3 天</option><option value="4">4 天</option><option value="5">5 天</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="travelers">出行人数</label>
+              <select id="travelers" name="travelers"><option value="1">1 人</option><option value="2" selected>2 人</option><option value="3">3 人</option><option value="4">4 人</option><option value="5">5 人</option><option value="6">6 人</option></select>
+            </div>
+            <div class="field">
+              <label for="outbound-mode">去程交通</label>
+              <select id="outbound-mode" name="outboundMode"><option value="auto">智能推荐</option><option value="train">高铁/火车</option><option value="flight">飞机</option><option value="drive">自驾</option><option value="bus">长途汽车</option></select>
+            </div>
+            <div class="field">
+              <label for="return-mode">返程交通</label>
+              <select id="return-mode" name="returnMode"><option value="auto">智能推荐</option><option value="train">高铁/火车</option><option value="flight">飞机</option><option value="drive">自驾</option><option value="bus">长途汽车</option></select>
+            </div>
+
+            <fieldset class="wide">
+              <legend>这趟旅行，你更期待什么？<small>可多选</small></legend>
+              <div class="chips">
+                <label><input type="checkbox" name="interests" value="culture" checked /><span>◫</span>人文历史</label>
+                <label><input type="checkbox" name="interests" value="nature" checked /><span>△</span>自然风光</label>
+                <label><input type="checkbox" name="interests" value="food" checked /><span>♨</span>本地美食</label>
+                <label><input type="checkbox" name="interests" value="city" /><span>◇</span>城市地标</label>
+                <label><input type="checkbox" name="interests" value="family" /><span>✦</span>亲子体验</label>
+                <label><input type="checkbox" name="interests" value="relaxed" /><span>☕</span>松弛漫游</label>
+              </div>
+            </fieldset>
+
+            <fieldset>
+              <legend>旅行节奏</legend>
+              <div class="segmented">
+                <label><input type="radio" name="pace" value="slow" /><span>慢慢逛</span></label>
+                <label><input type="radio" name="pace" value="balanced" checked /><span>刚刚好</span></label>
+                <label><input type="radio" name="pace" value="full" /><span>尽量充实</span></label>
+              </div>
+            </fieldset>
+            <div class="field budget-limit">
+              <label for="budget-limit">总预算上限 <small>可选，单位：元</small></label>
+              <div class="input-wrap money"><span>¥</span><input id="budget-limit" name="budgetLimit" type="number" min="0" step="100" placeholder="例如 5000" /></div>
+            </div>
+            <fieldset>
+              <legend>预算偏好</legend>
+              <div class="segmented">
+                <label><input type="radio" name="budget" value="value" /><span>精打细算</span></label>
+                <label><input type="radio" name="budget" value="comfort" checked /><span>舒适优先</span></label>
+                <label><input type="radio" name="budget" value="premium" /><span>品质体验</span></label>
+              </div>
+            </fieldset>
+
+            <button class="submit-button" type="submit"><span class="button-label">生成我的旅行计划</span><span class="button-icon">→</span></button>
+            <p class="form-note">地点、天气与市内路线由高德提供；航班、火车与酒店价格由飞猪实时查询。最终价格与库存以预订页为准。</p>
+          </form>
+        </div>
+      </section>
+
+      <section id="result" class="result-section" hidden aria-live="polite"></section>
+
+      <section id="how" class="how-section">
+        <div><span>01</span><h3>说出偏好</h3><p>目的地、日期、节奏和兴趣，一分钟填完。</p></div>
+        <div><span>02</span><h3>智能编排行程</h3><p>聚合地点与天气，减少折返，安排每日节奏。</p></div>
+        <div><span>03</span><h3>带着计划出发</h3><p>一键打开地图导航，也可以随时重新生成。</p></div>
+      </section>
+    </main>
+
+    <footer><span>行迹 TRAVEL PLANNER</span><small>去远方，也去遇见不一样的自己。</small></footer>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin="anonymous"></script>
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

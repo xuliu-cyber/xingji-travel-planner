@@ -1,0 +1,22 @@
+{
+  "name": "travel-planner-mvp",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node scripts/local-server.mjs",
+    "dev": "node scripts/local-server.mjs",
+    "dev:worker": "wrangler dev",
+    "deploy:preview": "wrangler deploy --temporary",
+    "check": "wrangler deploy --dry-run",
+    "test:regression": "node scripts/regression-cases.mjs && node scripts/e2e-local.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@axe-core/puppeteer": "^4.13.0",
+    "puppeteer-core": "^25.11.0",
+    "wrangler": "^4.135.0"
+  }
+}

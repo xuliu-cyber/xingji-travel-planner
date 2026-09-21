@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: xingji-travel-planner
+    runtime: docker
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: AMAP_MAPS_API_KEY
+        sync: false
+      - key: FLYAI_API_KEY
+        sync: false

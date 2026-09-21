@@ -1,0 +1,9 @@
+node_modules
+.git
+.github
+.dev.vars
+.cache
+.wrangler
+scripts/e2e-local.mjs
+scripts/regression-cases.mjs
+*.log
