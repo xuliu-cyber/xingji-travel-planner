@@ -1,6 +1,11 @@
 {
   "name": "Xingji Travel Planner",
   "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "features": {
+    "ghcr.io/devcontainers/features/sshd:1": {
+      "version": "latest"
+    }
+  },
   "forwardPorts": [8787],
   "portsAttributes": {
     "8787": {
