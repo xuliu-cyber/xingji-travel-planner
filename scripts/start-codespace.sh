@@ -20,4 +20,4 @@ if curl -fsS http://127.0.0.1:8787/api/health >/dev/null 2>&1; then
   exit 0
 fi
 
-nohup env HOST=0.0.0.0 PORT=8787 AMAP_MAPS_API_KEY="$AMAP_MAPS_API_KEY" npm start > /tmp/xingji.log 2>&1 &
+setsid env HOST=0.0.0.0 PORT=8787 AMAP_MAPS_API_KEY="$AMAP_MAPS_API_KEY" npm start </dev/null > /tmp/xingji.log 2>&1 &
